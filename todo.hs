@@ -1,13 +1,12 @@
-import System.IO
-import System.Environment
-import Data.List
-import System.IO.Error
+import qualified System.Environment as Env
+import qualified Data.List as List
+import qualified System.IO.Error as Err
 import Task
 
 fileName = "todo.txt"
 
 main = do
-  args <- getArgs
+  args <- Env.getArgs
   action args
 
 action :: [String] -> IO ()
@@ -21,7 +20,7 @@ action ("rm":numStr:[]) = do
   contents <- readFile fileName
   let tasks = readTasks contents
   let num = read numStr :: Int
-  let task = find (\t -> num == number t) tasks
+  let task = List.find (\t -> num == number t) tasks
   case task of
     Just task -> do
       length contents `seq` (removeTask num tasks)
@@ -29,7 +28,7 @@ action ("rm":numStr:[]) = do
     Nothing ->
       putStrLn $ "Cannot find task number " ++ (show num)
   `catch` (\e -> do
-    if isDoesNotExistError e then
+    if Err.isDoesNotExistError e then
       putStrLn $ fileName ++ " not found."
     else
       putStrLn $ "Error: " ++ show e)
@@ -39,7 +38,7 @@ action [] = do
   let tasks = readTasks contents
   putStr $ showTasks tasks
   `catch` (\e -> do
-    if isDoesNotExistError e then return ()
+    if Err.isDoesNotExistError e then return ()
     else putStrLn $ "Error: " ++ show e)
 
 action _ = do
