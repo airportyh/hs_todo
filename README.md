@@ -1,7 +1,7 @@
 CLI Todo List
 =============
 
-I wrote this program to learn Haskell. It's a simple todo list program.
+I wrote this program to learn Haskell. [You can too!](http://learnyouahaskell.com/). It's a simple todo list program.
 
 ## Usage
 
